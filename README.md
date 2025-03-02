@@ -31,7 +31,7 @@ Replace `your_openai_api_key` in `app.py` with your actual OpenAI API key.
 ```
 
 ## 📝 License
-MIT License
+Creative Commons (CC BY 4.0)
 
 ---
 
