@@ -1,6 +1,4 @@
 # Impact Analytica 🌱
-
-**One-line description:**
 Impact Analytica is a Streamlit-based AI tool that extracts, analyzes, and provides insights from sustainability reports using GPT-4.
 
 ## 🚀 Features
@@ -38,5 +36,4 @@ MIT License
 ---
 
 🚀 Developed for **automated sustainability insights**! Feel free to contribute or reach out for improvements! 🌍
-# impact_analytica
-Impact Analytica is a Streamlit-based AI tool that extracts, analyzes, and provides insights from sustainability reports using GPT-4.
+
