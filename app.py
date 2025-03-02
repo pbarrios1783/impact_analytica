@@ -4,10 +4,10 @@ import openai
 from dotenv import load_dotenv
 import os
 
-# Cargar las variables de entorno
+# Load environment variables
 load_dotenv()
 
-# Configurar la API de OpenAI desde el archivo .env
+# Set OpenAI API key
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Set branding colors
@@ -65,7 +65,7 @@ if uploaded_file:
             3. Suggest **recommendations** for future improvements.
 
             Here is the extracted text:
-            {full_text[:4000]}  # Limiting input to 4000 characters
+            {full_text[:4000]}
             """
             response = openai.ChatCompletion.create(
                 model="gpt-4",
@@ -82,9 +82,6 @@ if uploaded_file:
             st.write(analysis)
             
             # Save to file
-            with open("sustainability_analysis.txt", "w", encoding="utf-8") as f:
-                f.write(analysis)
-            
             st.download_button(
                 label="Download Analysis",
                 data=analysis,
