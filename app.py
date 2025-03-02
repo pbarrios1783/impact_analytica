@@ -8,7 +8,7 @@ import os
 load_dotenv()
 
 # Set OpenAI API key
-openai.api_key = os.getenv("OPENAI_API_KEY")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # Set branding colors
 st.set_page_config(page_title="Impact Analytica", page_icon="🌍", layout="wide")
@@ -67,15 +67,19 @@ if uploaded_file:
             Here is the extracted text:
             {full_text[:4000]}
             """
-            response = openai.ChatCompletion.create(
-                model="gpt-4",
-                messages=[
-                    {"role": "system", "content": "You are an expert in sustainability analysis."},
-                    {"role": "user", "content": prompt}
-                ]
-            )
             
-            analysis = response["choices"][0]["message"]["content"]
+            try:
+                client = openai.OpenAI(api_key=OPENAI_API_KEY)
+                response = client.chat.completions.create(
+                    model="gpt-4",
+                    messages=[
+                        {"role": "system", "content": "You are an expert in sustainability analysis."},
+                        {"role": "user", "content": prompt}
+                    ]
+                )
+                analysis = response.choices[0].message.content
+            except Exception as e:
+                analysis = f"Error: {str(e)}"
             
             # Display Analysis
             st.subheader("📄 Report Summary")
@@ -88,3 +92,4 @@ if uploaded_file:
                 file_name="sustainability_analysis.txt",
                 mime="text/plain"
             )
+
