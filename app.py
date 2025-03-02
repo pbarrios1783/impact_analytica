@@ -20,7 +20,7 @@ st.markdown(
         .title {
             color: #2E8B57;
             text-align: center;
-            font-size: 40px;
+            font-size: 50px;
             font-weight: bold;
         }
         .subtitle {
