@@ -1,14 +1,11 @@
 import streamlit as st
 import pdfplumber
 import openai
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
-
-# Set OpenAI API key
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # Set branding colors
 st.set_page_config(page_title="Impact Analytica", page_icon="🌍", layout="wide")
@@ -54,6 +51,10 @@ if uploaded_file:
 
         full_text = "\n\n".join(extracted_text)
         st.success("Text extracted successfully!")
+
+    # OpenAI API Key from environment variables
+    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+    openai.api_key = OPENAI_API_KEY
     
     # GPT Analysis
     if st.button("Analyze Report"):
@@ -65,21 +66,17 @@ if uploaded_file:
             3. Suggest **recommendations** for future improvements.
 
             Here is the extracted text:
-            {full_text[:4000]}
+            {full_text[:4000]}  # Limiting input to 4000 characters
             """
+            response = openai.ChatCompletion.create(
+                model="gpt-4",
+                messages=[
+                    {"role": "system", "content": "You are an expert in sustainability analysis."},
+                    {"role": "user", "content": prompt}
+                ]
+            )
             
-            try:
-                client = openai.OpenAI(api_key=OPENAI_API_KEY)
-                response = client.chat.completions.create(
-                    model="gpt-4",
-                    messages=[
-                        {"role": "system", "content": "You are an expert in sustainability analysis."},
-                        {"role": "user", "content": prompt}
-                    ]
-                )
-                analysis = response.choices[0].message.content
-            except Exception as e:
-                analysis = f"Error: {str(e)}"
+            analysis = response["choices"][0]["message"]["content"]
             
             # Display Analysis
             st.subheader("📄 Report Summary")
@@ -92,4 +89,5 @@ if uploaded_file:
                 file_name="sustainability_analysis.txt",
                 mime="text/plain"
             )
+
 
